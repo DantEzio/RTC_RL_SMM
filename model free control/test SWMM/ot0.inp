@@ -1,0 +1,480 @@
+[TITLE]
+;;Project Title/Notes
+
+[OPTIONS]
+;;Option             Value
+FLOW_UNITS           MLD
+INFILTRATION         GREEN_AMPT
+FLOW_ROUTING         DYNWAVE
+LINK_OFFSETS         DEPTH
+MIN_SLOPE            0
+ALLOW_PONDING        NO
+SKIP_STEADY_STATE    NO
+
+START_DATE           08/28/2015
+START_TIME           08:00:00
+REPORT_START_DATE    08/28/2015
+REPORT_START_TIME    08:00:00
+END_DATE             08/29/2015
+END_TIME             12:00:00
+SWEEP_START          01/01
+SWEEP_END            12/31
+DRY_DAYS             4
+REPORT_STEP          00:01:00
+WET_STEP             00:01:00
+DRY_STEP             00:01:00
+ROUTING_STEP         0:00:05 
+RULE_STEP            00:00:00
+
+INERTIAL_DAMPING     PARTIAL
+NORMAL_FLOW_LIMITED  BOTH
+FORCE_MAIN_EQUATION  H-W
+VARIABLE_STEP        0.75
+LENGTHENING_STEP     0
+MIN_SURFAREA         1.14
+MAX_TRIALS           8
+HEAD_TOLERANCE       0.0015
+SYS_FLOW_TOL         5
+LAT_FLOW_TOL         5
+MINIMUM_STEP         0.5
+THREADS              1
+
+[EVAPORATION]
+;;Data Source    Parameters
+;;-------------- ----------------
+CONSTANT         0.0
+DRY_ONLY         NO
+
+[RAINGAGES]
+;;Name           Format    Interval SCF      Source    
+;;-------------- --------- ------ ------ ----------
+rainfall         INTENSITY 0:01     0        TIMESERIES Oneyear-2h      
+
+[SUBCATCHMENTS]
+;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack        
+;;-------------- ---------------- ---------------- -------- -------- -------- -------- -------- ----------------
+61               rainfall         CC-storage       18       25       106.0660172 0.5      0                        
+
+[SUBAREAS]
+;;Subcatchment   N-Imperv   N-Perv     S-Imperv   S-Perv     PctZero    RouteTo    PctRouted 
+;;-------------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+61               0.011      0.1        0.05       0.05       75         OUTLET    
+
+[INFILTRATION]
+;;Subcatchment   Suction    Ksat       IMD       
+;;-------------- ---------- ---------- ----------
+61               3.0        0.5        4         
+
+[JUNCTIONS]
+;;Name           Elevation  MaxDepth   InitDepth  SurDepth   Aponded   
+;;-------------- ---------- ---------- ---------- ---------- ----------
+WS02006248       7.59       1.077      0          0          10        
+WS02006249       7.6        1.088      0          0          10        
+WS02006251       7.67       2.21       0          0          10        
+WS02006253       7.8        3.154      0          0          10        
+
+[OUTFALLS]
+;;Name           Elevation  Type       Stage Data       Gated    Route To        
+;;-------------- ---------- ---------- ---------------- -------- ----------------
+outfall-5        7.667      FREE                        NO                       
+outfall-27       7.9        FREE                        NO                       
+
+[STORAGE]
+;;Name           Elev.    MaxDepth   InitDepth  Shape      Curve Name/Params            N/A      Fevap    Psi      Ksat     IMD     
+;;-------------- -------- ---------- ----------- ---------- ---------------------------- -------- --------          -------- --------
+CC-storage       3.18     5.63       0          TABULAR    CC-curve                     0        0       
+
+[CONDUITS]
+;;Name           From Node        To Node          Length     Roughness  InOffset   OutOffset  InitFlow   MaxFlow   
+;;-------------- ---------------- ---------------- ---------- ---------- ---------- ---------- ---------- ----------
+WSL2480          WS02006249       WS02006248       23.16515238 0.01       0          0          0          0         
+WSL2482          WS02006251       WS02006249       51.35594132 0.01       0          0          0          0         
+WSL2484          WS02006253       WS02006251       27.92915153 0.01       0          0          0          0         
+8                WS02006248       outfall-5        5          0.01       0.6        0          0          0         
+1                CC-storage       outfall-27       10         0.01       5.13       0          0          0         
+
+[PUMPS]
+;;Name           From Node        To Node          Pump Curve       Status   Sartup Shutoff 
+;;-------------- ---------------- ---------------- ---------------- ------ -------- --------
+CC-Pump-1        CC-storage       WS02006253       CC-Pumpcurve     OFF      3.02     0.9     
+CC-Pump-2        CC-storage       WS02006253       CC-Pumpcurve     OFF      4.08     3.02    
+
+[XSECTIONS]
+;;Link           Shape        Geom1            Geom2      Geom3      Geom4      Barrels    Culvert   
+;;-------------- ------------ ---------------- ---------- ---------- ---------- ---------- ----------
+WSL2480          CIRCULAR     0.7              0          0          0          1                    
+WSL2482          CIRCULAR     0.7              0          0          0          1                    
+WSL2484          CIRCULAR     0.7              0          0          0          1                    
+8                CIRCULAR     0.4              0          0          0          1                    
+1                CIRCULAR     0.4              0          0          0          1                    
+
+[CONTROLS]
+
+
+
+
+
+
+
+[POLLUTANTS]
+;;Name           Units  Crain      Cgw        Crdii      Kdecay     SnowOnly   Co-Pollutant     Co-Frac    Cdwf       Cinit     
+;;-------------- ------ ---------- ---------- ---------- ---------- ---------- ---------------- ---------- ---------- ----------
+COD              MG/L   0.0        0.0        167        0.0        NO         *                0.0        0          0.0       
+NH3-N            MG/L   0.0        0.0        0.0        0.0        NO         *                0.0        0          0.0       
+TN               MG/L   0.0        0.0        0.0        0.0        NO         *                0.0        0          0.0       
+TP               MG/L   0.0        0.0        0.0        0.0        NO         *                0.0        0          0.0       
+SS               MG/L   0.0        0.0        0.0        0.0        NO         *                0.0        0          0.0       
+
+[LANDUSES]
+;;               Sweeping   Fraction   Last      
+;;Name           Interval   Available  Swept     
+;;-------------- ---------- ---------- ----------
+roof             0          0          0         
+green            0          0          0         
+road             0          0          1         
+
+[COVERAGES]
+;;Subcatchment   Land Use         Percent   
+;;-------------- ---------------- ----------
+61               roof             30        
+61               green            20        
+61               road             50        
+
+[LOADINGS]
+;;Subcatchment   Pollutant        Buildup   
+;;-------------- ---------------- ----------
+
+[BUILDUP]
+;;Land Use       Pollutant        Function   Coeff1     Coeff2     Coeff3     Per Unit  
+;;-------------- ---------------- ---------- ---------- ---------- ---------- ----------
+roof             COD              SAT        120        0          10         AREA      
+roof             NH3-N            NONE       0.0        0.0        0.0        AREA      
+roof             TN               NONE       0.0        0.0        0.0        AREA      
+roof             TP               NONE       0.0        0.0        0.0        AREA      
+roof             SS               NONE       0.0        0.0        0.0        AREA      
+green            COD              SAT        60         0          10         AREA      
+green            NH3-N            NONE       0.0        0.0        0.0        AREA      
+green            TN               NONE       0.0        0.0        0.0        AREA      
+green            TP               NONE       0.0        0.0        0.0        AREA      
+green            SS               NONE       0.0        0.0        0.0        AREA      
+road             COD              SAT        240        0          10         AREA      
+road             NH3-N            NONE       0.0        0.0        0.0        AREA      
+road             TN               NONE       0.0        0.0        0.0        AREA      
+road             TP               NONE       0.0        0.0        0.0        AREA      
+road             SS               NONE       0.0        0.0        0.0        AREA      
+
+[WASHOFF]
+;;Land Use       Pollutant        Function   Coeff1     Coeff2     SweepRmvl  BmpRmvl   
+;;-------------- ---------------- ---------- ---------- ---------- ---------- ----------
+roof             COD              EXP        0.012      1.8        0          0.0       
+roof             NH3-N            EMC        0.0        0.0        0.0        0.0       
+roof             TN               EMC        0.0        0.0        0.0        0.0       
+roof             TP               EMC        0.0        0.0        0.0        0.0       
+roof             SS               EMC        0.0        0.0        0.0        0.0       
+green            COD              EXP        0.01       1.5        0          0.0       
+green            NH3-N            EMC        0.0        0.0        0.0        0.0       
+green            TN               EMC        0.0        0.0        0.0        0.0       
+green            TP               EMC        0.0        0.0        0.0        0.0       
+green            SS               EMC        0.0        0.0        0.0        0.0       
+road             COD              EXP        0.015      2          0.7        0.0       
+road             NH3-N            EMC        0.0        0.0        0.0        0.0       
+road             TN               EMC        0.0        0.0        0.0        0.0       
+road             TP               EMC        0.0        0.0        0.0        0.0       
+road             SS               EMC        0.0        0.0        0.0        0.0       
+
+[INFLOWS]
+;;Node           Constituent      Time Series      Type     Mfactor  Sfactor  Baseline Pattern
+;;-------------- ---------------- ---------------- -------- -------- -------- -------- --------
+WS02006248       FLOW             groundwateraver  FLOW     1.0      1.1732   1.1953290 time-rate
+WS02006248       COD              ""               CONCEN   1        1        167      CODcurve
+WS02006249       FLOW             groundwateraver  FLOW     1.0      1.1732   2.2118054 time-rate
+WS02006249       COD              ""               CONCEN   1        1        167      CODcurve
+WS02006251       FLOW             groundwateraver  FLOW     1.0      1.1732   0.1735800 time-rate
+WS02006251       COD              ""               CONCEN   1        1        167      CODcurve
+WS02006253       FLOW             groundwateraver  FLOW     1.0      1.1732   0.9829174 time-rate
+WS02006253       COD              ""               CONCEN   1        1        167      CODcurve
+CC-storage       FLOW             ""               FLOW     1.0      1.0      31.2     time-rate
+CC-storage       COD              ""               CONCEN   1.0      1.0      167      CODcurve
+
+[CURVES]
+;;Name           Type       X-Value    Y-Value   
+;;-------------- ---------- ---------- ----------
+XB-Pumpcurve     Pump2      0          11.4      
+XB-Pumpcurve                5.34       11.4      
+;
+CC-Pumpcurve     Pump2      0          17.28     
+CC-Pumpcurve                5.63       17.28     
+;
+JK-Pumpcurve     Pump2      0          17.28     
+JK-Pumpcurve                5.63       17.28     
+;
+XR-Pumpcurve     Pump2      0          8.12      
+XR-Pumpcurve                7.72       8.12      
+;
+JK-curve         Storage    0          28.26     
+JK-curve                    4.8        28.26     
+;
+CC-curve         Storage    0          28.26     
+CC-curve                    5.63       28.26     
+;
+XR-curve         Storage    0          8.12      
+XR-curve                    7.72       8.12      
+;
+XB-curve         Storage    0          11.4      
+XB-curve                    5.34       11.4      
+;
+End-curve        Storage    0          10800     
+End-curve                   10         10800     
+
+[TIMESERIES]
+;;Name           Date       Time       Value     
+;;-------------- ---------- ---------- ----------
+groundwateraver  8/28/2015  00:00      0.042     
+groundwateraver  8/28/2015  01:00      0.042     
+groundwateraver  8/28/2015  02:00      0.042     
+groundwateraver  8/28/2015  03:00      0.042     
+groundwateraver  8/28/2015  04:00      0.042     
+groundwateraver  8/28/2015  05:00      0.042     
+groundwateraver  8/28/2015  06:00      0.042     
+groundwateraver  8/28/2015  07:00      0.042     
+groundwateraver  8/28/2015  08:00      0.042     
+groundwateraver  8/28/2015  09:00      0.042     
+groundwateraver  8/28/2015  10:00      0.042     
+groundwateraver  8/28/2015  11:00      0.042     
+groundwateraver  8/28/2015  12:00      0.042     
+groundwateraver  8/28/2015  13:00      0.042     
+groundwateraver  8/28/2015  14:00      0.042     
+groundwateraver  8/28/2015  15:00      0.042     
+groundwateraver  8/28/2015  16:00      0.042     
+groundwateraver  8/28/2015  17:00      0.042     
+groundwateraver  8/28/2015  18:00      0.042     
+groundwateraver  8/28/2015  19:00      0.042     
+groundwateraver  8/28/2015  20:00      0.042     
+groundwateraver  8/28/2015  21:00      0.042     
+groundwateraver  8/28/2015  22:00      0.042     
+groundwateraver  8/28/2015  23:00      0.042     
+groundwateraver  8/29/2015  00:00      0.042     
+groundwateraver  8/29/2015  01:00      0.042     
+groundwateraver  8/29/2015  02:00      0.042     
+groundwateraver  8/29/2015  03:00      0.042     
+groundwateraver  8/29/2015  04:00      0.042     
+groundwateraver  8/29/2015  05:00      0.042     
+groundwateraver  8/29/2015  06:00      0.042     
+groundwateraver  8/29/2015  07:00      0.042     
+groundwateraver  8/29/2015  08:00      0.042     
+groundwateraver  8/29/2015  09:00      0.042     
+groundwateraver  8/29/2015  10:00      0.042     
+groundwateraver  8/29/2015  11:00      0.042     
+groundwateraver  8/29/2015  12:00      0.042     
+groundwateraver  8/29/2015  13:00      0.042     
+groundwateraver  8/29/2015  14:00      0.042     
+groundwateraver  8/29/2015  15:00      0.042     
+groundwateraver  8/29/2015  16:00      0.042     
+groundwateraver  8/29/2015  17:00      0.042     
+groundwateraver  8/29/2015  18:00      0.042     
+groundwateraver  8/29/2015  19:00      0.042     
+groundwateraver  8/29/2015  20:00      0.042     
+groundwateraver  8/29/2015  21:00      0.042     
+groundwateraver  8/29/2015  22:00      0.042     
+groundwateraver  8/29/2015  23:00      0.042     
+;
+Oneyear-2h        08/28/2015 09:01      14.0
+Oneyear-2h        08/28/2015 09:02      9.899494936611665
+Oneyear-2h        08/28/2015 09:03      8.082903768654761
+Oneyear-2h        08/28/2015 09:04      7.0
+Oneyear-2h        08/28/2015 09:05      6.260990336999411
+Oneyear-2h        08/28/2015 09:06      5.715476066494083
+Oneyear-2h        08/28/2015 09:07      5.2915026221291805
+Oneyear-2h        08/28/2015 09:08      4.949747468305833
+Oneyear-2h        08/28/2015 09:09      4.666666666666667
+Oneyear-2h        08/28/2015 09:10      4.427188724235731
+Oneyear-2h        08/28/2015 09:11      4.221158824088691
+Oneyear-2h        08/28/2015 09:12      4.041451884327381
+Oneyear-2h        08/28/2015 09:13      3.8829013735766043
+Oneyear-2h        08/28/2015 09:14      3.7416573867739413
+Oneyear-2h        08/28/2015 09:15      3.6147844564602556
+Oneyear-2h        08/28/2015 09:16      3.5
+Oneyear-2h        08/28/2015 09:17      3.395498750508662
+Oneyear-2h        08/28/2015 09:18      3.299831645537222
+Oneyear-2h        08/28/2015 09:19      3.2118202741878643
+Oneyear-2h        08/28/2015 09:20      3.1304951684997055
+Oneyear-2h        08/28/2015 09:21      3.0550504633038935
+Oneyear-2h        08/28/2015 09:22      2.9848100289785457
+Oneyear-2h        08/28/2015 09:23      2.919201796799047
+Oneyear-2h        08/28/2015 09:24      2.8577380332470415
+Oneyear-2h        08/28/2015 09:25      2.8
+Oneyear-2h        08/28/2015 09:26      2.745625891934577
+Oneyear-2h        08/28/2015 09:27      2.6943012562182536
+Oneyear-2h        08/28/2015 09:28      2.6457513110645903
+Oneyear-2h        08/28/2015 09:29      2.599734734478726
+Oneyear-2h        08/28/2015 09:30      2.556038601690775
+Oneyear-2h        08/28/2015 09:31      2.5144742283748487
+Oneyear-2h        08/28/2015 09:32      2.4748737341529163
+Oneyear-2h        08/28/2015 09:33      2.4370871833797696
+Oneyear-2h        08/28/2015 09:34      2.4009801919951235
+Oneyear-2h        08/28/2015 09:35      2.3664319132398464
+Oneyear-2h        08/28/2015 09:36      2.3333333333333335
+Oneyear-2h        08/28/2015 09:37      2.301585822275002
+Oneyear-2h        08/28/2015 09:38      2.271099895830676
+Oneyear-2h        08/28/2015 09:39      2.24179415327122
+Oneyear-2h        08/28/2015 09:40      2.2135943621178655
+Oneyear-2h        08/28/2015 09:41      2.186432666440485
+Oneyear-2h        08/28/2015 09:42      2.1602468994692865
+Oneyear-2h        08/28/2015 09:43      2.134979984656465
+Oneyear-2h        08/28/2015 09:44      2.1105794120443453
+Oneyear-2h        08/28/2015 09:45      2.0869967789998034
+Oneyear-2h        08/28/2015 09:46      2.06418738616856
+Oneyear-2h        08/28/2015 09:47      2.042109880970524
+Oneyear-2h        08/28/2015 09:48      2.0207259421636903
+Oneyear-2h        08/28/2015 09:49      2.0
+Oneyear-2h        08/28/2015 09:50      1.979898987322333
+Oneyear-2h        08/28/2015 09:51      1.9603921176392136
+Oneyear-2h        08/28/2015 09:52      1.9414506867883021
+Oneyear-2h        08/28/2015 09:53      1.9230478952816463
+Oneyear-2h        08/28/2015 09:54      1.9051586888313607
+Oneyear-2h        08/28/2015 09:55      1.8877596148970779
+Oneyear-2h        08/28/2015 09:56      1.8708286933869707
+Oneyear-2h        08/28/2015 09:57      1.8543452998910612
+Oneyear-2h        08/28/2015 09:58      1.8382900600361156
+Oneyear-2h        08/28/2015 09:59      1.8226447537315342
+Oneyear-2h        08/28/2015 10:00      1.8073922282301278
+Oneyear-2h        08/28/2015 10:01      1.7925163190605438
+Oneyear-2h        08/28/2015 10:02      1.778001778002667
+Oneyear-2h        08/28/2015 10:03      1.7638342073763937
+Oneyear-2h        08/28/2015 10:04      1.75
+Oneyear-2h        08/28/2015 10:05      1.7364862842489186
+Oneyear-2h        08/28/2015 10:06      1.7232808737106582
+Oneyear-2h        08/28/2015 10:07      1.710372220988273
+Oneyear-2h        08/28/2015 10:08      1.697749375254331
+Oneyear-2h        08/28/2015 10:09      1.6854019432007687
+Oneyear-2h        08/28/2015 10:10      1.6733200530681511
+Oneyear-2h        08/28/2015 10:11      1.6614943214713946
+Oneyear-2h        08/28/2015 10:12      1.649915822768611
+Oneyear-2h        08/28/2015 10:13      1.638576060745828
+Oneyear-2h        08/28/2015 10:14      1.62746694241347
+Oneyear-2h        08/28/2015 10:15      1.616580753730952
+Oneyear-2h        08/28/2015 10:16      1.6059101370939322
+Oneyear-2h        08/28/2015 10:17      1.5954480704349312
+Oneyear-2h        08/28/2015 10:18      1.585187847802434
+Oneyear-2h        08/28/2015 10:19      1.5751230612964335
+Oneyear-2h        08/28/2015 10:20      1.5652475842498528
+Oneyear-2h        08/28/2015 10:21      1.5555555555555556
+Oneyear-2h        08/28/2015 10:22      1.5460413650478515
+Oneyear-2h        08/28/2015 10:23      1.5366996398556647
+Oneyear-2h        08/28/2015 10:24      1.5275252316519468
+Oneyear-2h        08/28/2015 10:25      1.5185132047305931
+Oneyear-2h        08/28/2015 10:26      1.5096588248481377
+Oneyear-2h        08/28/2015 10:27      1.5009575487729128
+Oneyear-2h        08/28/2015 10:28      1.4924050144892729
+Oneyear-2h        08/28/2015 10:29      1.483997032008904
+Oneyear-2h        08/28/2015 10:30      1.4757295747452437
+Oneyear-2h        08/28/2015 10:31      1.4675987714106857
+Oneyear-2h        08/28/2015 10:32      1.4596008983995234
+Oneyear-2h        08/28/2015 10:33      1.4517323726225955
+Oneyear-2h        08/28/2015 10:34      1.4439897447623107
+Oneyear-2h        08/28/2015 10:35      1.4363696929192158
+Oneyear-2h        08/28/2015 10:36      1.4288690166235207
+Oneyear-2h        08/28/2015 10:37      1.4214846311870668
+Oneyear-2h        08/28/2015 10:38      1.4142135623730951
+Oneyear-2h        08/28/2015 10:39      1.407052941362897
+Oneyear-2h        08/28/2015 10:40      1.4
+Oneyear-2h        08/28/2015 10:41      1.393052066293985
+Oneyear-2h        08/28/2015 10:42      1.3862065601673441
+Oneyear-2h        08/28/2015 10:43      1.3794609894300105
+Oneyear-2h        08/28/2015 10:44      1.3728129459672884
+Oneyear-2h        08/28/2015 10:45      1.3662601021279466
+Oneyear-2h        08/28/2015 10:46      1.3598002073001698
+Oneyear-2h        08/28/2015 10:47      1.353431084663929
+Oneyear-2h        08/28/2015 10:48      1.3471506281091268
+Oneyear-2h        08/28/2015 10:49      1.3409567993096119
+Oneyear-2h        08/28/2015 10:50      1.3348476249438292
+Oneyear-2h        08/28/2015 10:51      1.3288211940534986
+Oneyear-2h        08/28/2015 10:52      1.3228756555322951
+Oneyear-2h        08/28/2015 10:53      1.317009215737036
+Oneyear-2h        08/28/2015 10:54      1.3112201362143716
+Oneyear-2h        08/28/2015 10:55      1.3055067315364393
+Oneyear-2h        08/28/2015 10:56      1.299867367239363
+Oneyear-2h        08/28/2015 10:57      1.294300457858868
+Oneyear-2h        08/28/2015 10:58      1.2888044650576527
+Oneyear-2h        08/28/2015 10:59      1.283377895839496
+Oneyear-2h        08/28/2015 11:00      1.2780193008453875
+;
+Realtec          08/28/2015 03:00      1.3       
+Realtec          08/28/2015 04:00      1.7       
+Realtec          08/28/2015 05:00      0.5       
+Realtec          08/28/2015 06:00      10.5      
+Realtec          08/28/2015 07:00      2.1       
+Realtec          08/28/2015 08:00      0.1       
+Realtec          08/28/2015 09:00      0.4       
+Realtec          08/28/2015 10:00      1.2       
+Realtec          08/28/2015 11:00      0.5       
+Realtec          08/28/2015 12:00      0.8       
+Realtec          08/28/2015 13:00      0.7       
+Realtec          08/28/2015 14:00      0         
+Realtec          08/28/2015 15:00      0.5       
+Realtec          08/28/2015 16:00      0         
+Realtec          08/28/2015 17:00      0         
+Realtec          08/28/2015 18:00      0         
+Realtec          08/28/2015 19:00      0         
+Realtec          08/28/2015 20:00      0         
+Realtec          08/28/2015 21:00      0         
+Realtec          08/28/2015 22:00      0         
+Realtec          08/28/2015 23:00      0         
+Realtec          08/28/2015 24:00:00   0         
+
+[PATTERNS]
+;;Name           Type       Multipliers
+;;-------------- ---------- -----------
+time-rate        HOURLY     0.040306218 0.043345101 0.033317295 0.022440628 0.016416550 0.019691959
+time-rate                   0.017853435 0.035935292 0.060459580 0.061740469 0.051898542 0.046751181
+time-rate                   0.047313881 0.040162884 0.049338790 0.033401371 0.036940656 0.028880526
+time-rate                   0.042825452 0.057302688 0.062746846 0.052506318 0.053608926 0.044815413
+;
+CODcurve         HOURLY     1.0   1.0   1.0   1.0   1.0   1.0  
+CODcurve                    1.0   1.0   1.0   1.0   1.0   1.0  
+CODcurve                    1.0   1.0   1.0   1.0   1.0   1.0  
+CODcurve                    1.0   1.0   1.0   1.0   1.0   1.0  
+
+[REPORT]
+;;Reporting Options
+SUBCATCHMENTS ALL
+NODES ALL
+LINKS ALL
+
+[TAGS]
+
+[MAP]
+DIMENSIONS 528870.460 495106.109 532241.600 498876.375
+Units      Meters
+
+[COORDINATES]
+;;Node           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+WS02006248       531136.025         498481.684        
+WS02006249       531138.078         498504.758        
+WS02006251       531134.781         498556.008        
+WS02006253       531130.249         498583.567        
+outfall-5        531184.978         498510.968        
+outfall-27       531255.933         498731.025        
+CC-storage       531371.004         498644.420        
+
+[VERTICES]
+;;Link           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+CC-Pump-1        531192.604         498617.216        
+CC-Pump-2        531212.396         498585.730        
+
+[Polygons]
+;;Subcatchment   X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+61               531465.177         498876.291        
+61               531630.755         498505.967        
+61               531935.204         498648.400        
+61               531755.383         499009.821        
+61               531461.616         498874.511        
+
+[SYMBOLS]
+;;Gage           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+rainfall         530149.897         498517.624        
+
